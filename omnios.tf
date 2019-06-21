@@ -1,5 +1,3 @@
-provider "aws" {}
-
 locals {
   ami_table = { # OmniOS r151030 (LTS) https://omniosce.org/setup/aws
     eu-central-1   = "ami-0ad303949e19f897a"

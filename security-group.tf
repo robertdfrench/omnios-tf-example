@@ -1,11 +1,9 @@
-provider "external" {}
-
 data "external" "ip_address" {
-  program = ["bash", "get_ip.sh"]
+  program = ["bash", "-c", "curl -4 -q ifconfig.co/json | jq -r '{ip4: .ip}'"]
 }
 
 locals {
-  ip = data.external.ip_address.result.ip
+  ip4_cidr = join("/", [data.external.ip_address.result.ip4, "32"])
 }
 
 resource "aws_security_group" "allow_ssh" {
@@ -16,7 +14,7 @@ resource "aws_security_group" "allow_ssh" {
     from_port   = 22
     to_port     = 22
     protocol    = "TCP"
-    cidr_blocks = [join("/", [local.ip, "32"])]
+    cidr_blocks = [local.ip4_cidr]
   }
 
   egress {
