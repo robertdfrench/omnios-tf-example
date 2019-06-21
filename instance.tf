@@ -4,3 +4,7 @@ resource "aws_instance" "omnios" {
 	instance_type = "t2.micro"
 	security_groups = [aws_security_group.allow_ssh.name]
 }
+
+output "instance_ip" {
+  value = aws_instance.omnios.public_ip
+}

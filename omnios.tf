@@ -24,7 +24,3 @@ data "aws_region" "region" {}
 locals {
   ami = local.ami_table[data.aws_region.region.name]
 }
-
-output "ami" {
-  value = local.ami
-}
